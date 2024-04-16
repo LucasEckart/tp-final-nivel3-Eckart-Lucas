@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Master.master.cs" Inherits="Aplicacion_web.Master" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+
+<body>
+    <form id="form1" runat="server">
+
+
+        <nav class="navbar navbar-expand-md bg-body-tertiary" data-bs-theme="dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="Default.aspx">Amazing</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+
+
+                        <asp:TextBox ID="txtBuscar" placeholder="Buscar Productos" CssClass="form-control" runat="server"></asp:TextBox>
+                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btn btn-outline-secondary btn-sm" /><br />
+
+
+
+
+                        <%if (negocio.Seguridad.sessionActiva(Session["usuario"]))
+                            {%>
+                        <%if (negocio.Seguridad.isAdmin(Session["usuario"]))
+                            {%>
+                        <a class="nav-link active" aria-current="page" href="/Tabla.aspx">Tabla</a>
+                        <a class="nav-link active" aria-current="page" href="MiPerfil.aspx">Perfil</a>
+                        <a class="nav-link active" aria-current="page" href="Favoritos.aspx">Favoritos</a>
+                        <% 
+                            }
+                            else
+                            {%>
+                        <a class="nav-link active" aria-current="page" href="MiPerfil.aspx">Perfil</a>
+                        <a class="nav-link active" aria-current="page" href="Favoritos.aspx">Favoritos</a>
+                        <% }%>
+
+                        <% 
+                            }%>
+                    </div>
+
+
+                </div>
+                <div class="d-flex">
+                    <%if (!negocio.Seguridad.sessionActiva(Session["usuario"]))
+                        {%>
+
+                    <a href="Login.aspx" class="btn btn-success me-2">Login</a>
+                    <a href="Registro.aspx" class="btn btn-outline-primary me-2">Registrarse</a>
+
+                    <% 
+                        }
+                        else
+                        {%>
+                    <asp:Button ID="btnSalir" OnClick="btnSalir_Click" CssClass="btn btn-outline-primary me-2" runat="server" Text="Salir" />
+                    <asp:Label ID="lblUser" runat="server" CssClass="text-light m-auto me-2" Text=""></asp:Label>
+
+                    <% }%>
+
+                    <asp:Image ID="imgAvatar" Style="height: 40px; width: 40px; border-radius: 50%;" runat="server" />
+                </div>
+            </div>
+        </nav>
+
+
+
+        <div class="container">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>
